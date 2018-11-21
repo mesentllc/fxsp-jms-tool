@@ -284,6 +284,10 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
         tblProperties.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         tblProperties.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+	            {null, null},
+	            {null, null},
+	            {null, null},
+	            {null, null},
                 {null, null},
                 {null, null},
                 {null, null},
@@ -668,7 +672,7 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
 		rbInDir.setSelected(true);
 		txtSourceDir.setText(null);
 		TableModel model = tblProperties.getModel();
-		for (int cntr = 0; cntr < 8; cntr++) {
+		for (int cntr = 0; cntr < model.getRowCount(); cntr++) {
 			model.setValueAt(null, cntr, 0);
 			model.setValueAt(null, cntr, 1);
 		}
@@ -809,7 +813,7 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
 				.append(cbxSaveMessages.isSelected() ? "X" : "").append("|").append(txtTarget.getText()).append("\n");
 			sb.append(rbInFile.isSelected() ? "F" : "D").append("|").append(txtSourceDir.getText()).append("\n");
 			TableModel tableModel = tblProperties.getModel();
-			for (int cntr = 0; cntr < 8; cntr++) {
+			for (int cntr = 0; cntr < tableModel.getRowCount(); cntr++) {
 				if (StringUtils.isNotEmpty((String) tableModel.getValueAt(cntr, 0))) {
 					sb.append(tableModel.getValueAt(cntr, 0)).append("|")
 						.append(tableModel.getValueAt(cntr, 1)).append("\n");
