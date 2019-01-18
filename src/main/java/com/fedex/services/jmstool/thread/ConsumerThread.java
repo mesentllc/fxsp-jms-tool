@@ -1,19 +1,17 @@
 package com.fedex.services.jmstool.thread;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.MessageConsumer;
-import javax.jms.Session;
-
 import com.fedex.services.jmstool.model.MessageModel;
 import com.fedex.smartpost.common.exception.UnrecoverableException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.jms.core.JmsTemplate;
-import org.springframework.messaging.core.DestinationResolutionException;
+
+import javax.jms.Message;
+import javax.jms.MessageConsumer;
+import javax.jms.Session;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class ConsumerThread extends Thread {
 	private static final Log LOGGER = LogFactory.getLog(ConsumerThread.class);

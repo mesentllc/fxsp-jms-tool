@@ -1,15 +1,15 @@
 package com.fedex.services.jmstool.thread;
 
+import com.fedex.services.jmstool.model.MessageModel;
+import com.fedex.services.jmstool.service.JmsProcessService;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
-
-import com.fedex.services.jmstool.model.MessageModel;
-import com.fedex.services.jmstool.service.JmsProcessService;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 public class PublishThread extends Thread {
 	private static final Log LOG = LogFactory.getLog(PublishThread.class);

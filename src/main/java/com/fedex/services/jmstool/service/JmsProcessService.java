@@ -1,7 +1,5 @@
 package com.fedex.services.jmstool.service;
 
-import javax.naming.NamingException;
-
 import com.fedex.services.jmstool.model.MessageModel;
 import com.fedex.services.jmstool.thread.ConsumerThread;
 import com.fedex.services.jmstool.utils.JmsMessageCreator;
@@ -15,8 +13,9 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter;
 import org.springframework.jms.core.JmsTemplate;
 
-public class JmsProcessService {
+import javax.naming.NamingException;
 
+public class JmsProcessService {
 	private static final Log LOGGER = LogFactory.getLog(JmsProcessService.class);
 	private final JmsUtils jmsUtils;
 	private UserCredentialsConnectionFactoryAdapter cfAdapter;
@@ -27,6 +26,18 @@ public class JmsProcessService {
 			throw new UnrecoverableException("LDAP URL MUST NOT be NULL!", false);
 		}
 		jmsUtils = new JmsUtils(url);
+	}
+
+	private MessageModel consumeOne(boolean saveMessage, String fileRoot) {
+		ConsumerThread thread = new ConsumerThread(jmsTemplate, saveMessage, fileRoot, false);
+		thread.start();
+		try {
+			thread.join();
+		}
+		catch (InterruptedException ex) {
+			LOGGER.info("Consumer interrupted.");
+		}
+		return thread.getMessageModel();
 	}
 
 	public void setCF(String cfName, String username, String password) throws NamingException {
@@ -74,14 +85,22 @@ public class JmsProcessService {
 	}
 
 	public MessageModel consume(boolean saveMessage, String fileRoot, boolean readAll) {
-		ConsumerThread thread = new ConsumerThread(jmsTemplate, saveMessage, fileRoot, readAll);
-		thread.run();
-		try {
-			thread.join();
+		if (!readAll) {
+			return consumeOne(saveMessage, fileRoot);
 		}
-		catch (InterruptedException ex) {
-			LOGGER.info("Consumer interrupted.");
+		ConsumerThread[] threads = new ConsumerThread[10];
+		for (int i = 0; i < 10; i++) {
+			threads[i] = new ConsumerThread(jmsTemplate, saveMessage, fileRoot, true);
+			threads[i].start();
 		}
-		return thread.getMessageModel();
+		for (int i = 0; i < 10; i++) {
+			try {
+				threads[i].join();
+			}
+			catch (InterruptedException ex) {
+				LOGGER.info("Consumer interrupted.");
+			}
+		}
+		return threads[0].getMessageModel();
 	}
 }

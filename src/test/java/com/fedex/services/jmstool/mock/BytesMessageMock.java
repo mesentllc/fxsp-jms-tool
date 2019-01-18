@@ -1,12 +1,12 @@
 package com.fedex.services.jmstool.mock;
 
+import org.apache.commons.collections.iterators.IteratorEnumeration;
+
+import javax.jms.BytesMessage;
+import javax.jms.Destination;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-import javax.jms.BytesMessage;
-import javax.jms.Destination;
-
-import org.apache.commons.collections.iterators.IteratorEnumeration;
 
 public class BytesMessageMock implements BytesMessage {
 	private Map<String, Object> properties = new HashMap<>();

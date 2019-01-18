@@ -6,8 +6,18 @@ import com.fedex.services.jmstool.service.JmsProcessService;
 import com.fedex.services.jmstool.thread.ConsoleThread;
 import com.fedex.services.jmstool.thread.PublishThread;
 import com.fedex.smartpost.common.exception.RecoverableException;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.core.layout.PatternLayout;
 
-import java.awt.TrayIcon;
+import javax.naming.NamingException;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.event.ChangeListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.TableModel;
+import java.awt.HeadlessException;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.io.BufferedReader;
@@ -20,24 +30,14 @@ import java.rmi.UnexpectedException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingDeque;
-import javax.naming.NamingException;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.event.ChangeListener;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.TableModel;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.logging.log4j.core.layout.PatternLayout;
+import java.util.concurrent.LinkedBlockingQueue;
 
 public class MainFrame extends javax.swing.JFrame implements ActionListener, ChangeListener, MouseListener {
 
 	private static final Log LOGGER = LogFactory.getLog(MainFrame.class);
 	private final LogAdviser logAdviser;
 	private final ConsoleThread consoleThread;
-	private final BlockingQueue<String> messageQueue = new LinkedBlockingDeque<>();
+	private final BlockingQueue<String> messageQueue = new LinkedBlockingQueue<>();
 
 	public MainFrame() {
 		logAdviser = new LogAdviser(new LogEventAppender("logEventAppender", null,
@@ -110,6 +110,7 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
         cbxUrl = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtConsole = new javax.swing.JTextArea();
+        btnTest = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         mnuLoad = new javax.swing.JMenu();
         mnuSave = new javax.swing.JMenu();
@@ -141,14 +142,14 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
         lblUrl.setText("LDAP URL:");
         lblUrl.setFocusable(false);
         getContentPane().add(lblUrl);
-        lblUrl.setBounds(12, 14, 60, 16);
+        lblUrl.setBounds(12, 14, 65, 16);
         lblUrl.getAccessibleContext().setAccessibleName("lblUrl");
 
         lblCF.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         lblCF.setText("Connection Factory:");
         lblCF.setFocusable(false);
         getContentPane().add(lblCF);
-        lblCF.setBounds(12, 40, 112, 16);
+        lblCF.setBounds(12, 40, 116, 16);
 
         txtCF.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         getContentPane().add(txtCF);
@@ -161,26 +162,26 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
         lblUsername.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         lblUsername.setText("Username:");
         getContentPane().add(lblUsername);
-        lblUsername.setBounds(100, 110, 62, 16);
+        lblUsername.setBounds(50, 110, 64, 16);
 
         txtUsername.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         getContentPane().add(txtUsername);
-        txtUsername.setBounds(180, 110, 200, 23);
+        txtUsername.setBounds(130, 110, 200, 23);
 
         lblPassword.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         lblPassword.setText("Password:");
         getContentPane().add(lblPassword);
-        lblPassword.setBounds(400, 110, 61, 16);
+        lblPassword.setBounds(350, 110, 61, 16);
 
         txtPassword.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         getContentPane().add(txtPassword);
-        txtPassword.setBounds(470, 110, 200, 23);
+        txtPassword.setBounds(420, 110, 200, 23);
 
         btnExecute.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         btnExecute.setText("Execute");
         btnExecute.addActionListener(this);
         getContentPane().add(btnExecute);
-        btnExecute.setBounds(700, 200, 80, 26);
+        btnExecute.setBounds(700, 200, 81, 26);
 
         tabPane.setFocusable(false);
         tabPane.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
@@ -284,10 +285,6 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
         tblProperties.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         tblProperties.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-	            {null, null},
-	            {null, null},
-	            {null, null},
-	            {null, null},
                 {null, null},
                 {null, null},
                 {null, null},
@@ -451,6 +448,11 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
         getContentPane().add(jScrollPane1);
         jScrollPane1.setBounds(30, 320, 750, 140);
 
+        btnTest.setText("Test Connection");
+        btnTest.addActionListener(this);
+        getContentPane().add(btnTest);
+        btnTest.setBounds(640, 110, 150, 30);
+
         mnuLoad.setText("Load File");
         mnuLoad.addMouseListener(this);
         menuBar.add(mnuLoad);
@@ -482,6 +484,9 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
         }
         else if (evt.getSource() == btnSubTestSource) {
             MainFrame.this.btnSubTestSourceActionPerformed(evt);
+        }
+        else if (evt.getSource() == btnTest) {
+            MainFrame.this.btnTestActionPerformed(evt);
         }
     }
 
@@ -539,7 +544,7 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
 			if (tabPane.getSelectedIndex() == 2) {
 				if (StringUtils.isEmpty(txtSubTestSrc.getText())) {
 					JOptionPane.showMessageDialog(this, "Message source MUST be identified.", "Error!",
-					                              JOptionPane.ERROR_MESSAGE);
+						JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				processTestingPublish(service, txtSubTestSrc.getText());
@@ -562,7 +567,7 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
 		PublishThread threads[] = new PublishThread[threadCount];
 		for (int cntr = 0; cntr < threadCount; cntr++) {
 			threads[cntr] = new PublishThread(cntr, service, messageQueue);
-			threads[cntr].run();
+			threads[cntr].start();
 		}
 		while (messageSent < Integer.parseInt(txtMsgCount.getText())) {
 			try {
@@ -679,8 +684,33 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
     }//GEN-LAST:event_mnuResetMouseClicked
 
     private void btnSubTestSourceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubTestSourceActionPerformed
-		// TODO add your handling code here:
+		JFileChooser fileChooser = new JFileChooser();
+		fileChooser.removeChoosableFileFilter(fileChooser.getAcceptAllFileFilter());
+		fileChooser.setCurrentDirectory(new File(txtSubTestSrc.getText()));
+		if (rbSubTestFile.isSelected()) {
+			fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		}
+		else {
+			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		}
+		if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+			File selectedFile = fileChooser.getSelectedFile();
+			txtSubTestSrc.setText(selectedFile.getAbsolutePath());
+		}
     }//GEN-LAST:event_btnSubTestSourceActionPerformed
+
+    private void btnTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTestActionPerformed
+		try {
+			JmsProcessService service = new JmsProcessService(cbxUrl.getSelectedItem().toString());
+			service.setCF(txtCF.getText(), txtUsername.getText(), txtPassword.getText());
+			service.setJmsTemplate(txtTQ.getText(), rbTopic.isSelected());
+			JOptionPane.showMessageDialog(this, "Success.");
+		}
+		catch (NamingException e) {
+			LOGGER.error("Exception Caught: ", e);
+			JOptionPane.showMessageDialog(this, "Failed.", "Error!", JOptionPane.ERROR_MESSAGE);
+		}
+    }//GEN-LAST:event_btnTestActionPerformed
 
 	public static void main(String args[]) {
 		try {
@@ -702,6 +732,7 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
     private javax.swing.JButton btnSource;
     private javax.swing.JButton btnSubTestSource;
     private javax.swing.JButton btnTarget;
+    private javax.swing.JButton btnTest;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JCheckBox cbxSaveMessages;
     private javax.swing.JComboBox<String> cbxUrl;
@@ -777,8 +808,8 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
 				service.publish(new MessageModel(file, properties));
 			}
 		}
-		catch (Exception e) {
-			LOGGER.error("", e);
+		catch (IOException e) {
+			LOGGER.error("Exception Caught: ", e);
 		}
 	}
 
@@ -793,7 +824,7 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
 			readProperties(br);
 			br.close();
 		}
-		catch (Exception ex) {
+		catch (IOException ex) {
 			LOGGER.error("Error processing " + selectedFile.getAbsolutePath(), ex);
 		}
 	}
@@ -823,7 +854,7 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
 			bw.close();
 			JOptionPane.showMessageDialog(this, "Successfully Saved.");
 		}
-		catch (Exception e) {
+		catch (HeadlessException | IOException e) {
 			LOGGER.error("Error processing " + selectedFile.getAbsolutePath(), e);
 		}
 	}

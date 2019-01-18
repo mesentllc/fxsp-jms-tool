@@ -1,19 +1,5 @@
 package com.fedex.services.jmstool.service;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-import javax.jms.JMSException;
-import javax.jms.Session;
-import javax.naming.NameNotFoundException;
-import javax.naming.NamingException;
-
 import com.fedex.services.jmstool.mock.BytesMessageMock;
 import com.fedex.services.jmstool.mock.JmsTemplateMock;
 import com.fedex.services.jmstool.model.MessageModel;
@@ -27,6 +13,20 @@ import org.junit.Test;
 import org.springframework.jms.JmsSecurityException;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.SessionCallback;
+
+import javax.jms.JMSException;
+import javax.jms.Session;
+import javax.naming.NameNotFoundException;
+import javax.naming.NamingException;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 public class JmsProcessServiceTest {
 	private static JmsProcessService service;

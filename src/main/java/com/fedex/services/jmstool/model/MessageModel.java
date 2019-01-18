@@ -1,5 +1,10 @@
 package com.fedex.services.jmstool.model;
 
+import org.joda.time.DateTime;
+
+import javax.jms.BytesMessage;
+import javax.jms.JMSException;
+import javax.jms.Message;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -7,11 +12,6 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-import javax.jms.BytesMessage;
-import javax.jms.JMSException;
-import javax.jms.Message;
-
-import org.joda.time.DateTime;
 
 public class MessageModel {
 

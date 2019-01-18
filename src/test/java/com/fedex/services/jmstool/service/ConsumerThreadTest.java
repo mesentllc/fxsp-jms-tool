@@ -1,8 +1,5 @@
 package com.fedex.services.jmstool.service;
 
-import javax.jms.Message;
-import javax.jms.Session;
-
 import com.fedex.services.jmstool.mock.BytesMessageMock;
 import com.fedex.services.jmstool.model.MessageModel;
 import com.fedex.services.jmstool.thread.ConsumerThread;
@@ -14,6 +11,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.SessionCallback;
+
+import javax.jms.Message;
+import javax.jms.Session;
 
 public class ConsumerThreadTest {
 	private IMocksControl control;

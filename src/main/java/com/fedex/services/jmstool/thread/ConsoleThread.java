@@ -1,10 +1,10 @@
 package com.fedex.services.jmstool.thread;
 
-import java.util.List;
+import com.fedex.services.jmstool.LogAdviser;
+
 import javax.swing.JTextArea;
 import javax.swing.SwingWorker;
-
-import com.fedex.services.jmstool.LogAdviser;
+import java.util.List;
 
 public class ConsoleThread extends SwingWorker<Void, String> {
 	private LogAdviser logAdviser;

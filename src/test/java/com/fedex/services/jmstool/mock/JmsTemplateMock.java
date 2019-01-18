@@ -1,11 +1,11 @@
 package com.fedex.services.jmstool.mock;
 
-import java.util.Properties;
-
 import com.fedex.services.jmstool.utils.JmsMessageCreator;
 import org.springframework.jms.JmsException;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
+
+import java.util.Properties;
 
 public class JmsTemplateMock extends JmsTemplate {
 	private Properties properties;

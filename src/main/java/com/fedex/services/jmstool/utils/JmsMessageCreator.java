@@ -1,15 +1,15 @@
 package com.fedex.services.jmstool.utils;
 
-import java.util.Enumeration;
-import java.util.Map;
-import java.util.Properties;
+import com.fedex.smartpost.common.exception.UnrecoverableException;
+import org.springframework.jms.core.MessageCreator;
+
 import javax.jms.BytesMessage;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Session;
-
-import com.fedex.smartpost.common.exception.UnrecoverableException;
-import org.springframework.jms.core.MessageCreator;
+import java.util.Enumeration;
+import java.util.Map;
+import java.util.Properties;
 
 public class JmsMessageCreator implements MessageCreator {
 
