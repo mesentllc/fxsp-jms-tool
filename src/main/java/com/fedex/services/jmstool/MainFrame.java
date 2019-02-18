@@ -1,22 +1,12 @@
 package com.fedex.services.jmstool;
 
 import com.fedex.services.jmstool.appender.LogEventAppender;
+import com.fedex.services.jmstool.enums.ScreenEnum;
 import com.fedex.services.jmstool.model.MessageModel;
 import com.fedex.services.jmstool.service.JmsProcessService;
 import com.fedex.services.jmstool.thread.ConsoleThread;
 import com.fedex.services.jmstool.thread.PublishThread;
 import com.fedex.smartpost.common.exception.RecoverableException;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.logging.log4j.core.layout.PatternLayout;
-
-import javax.naming.NamingException;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.event.ChangeListener;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.TableModel;
 import java.awt.HeadlessException;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
@@ -31,6 +21,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import javax.naming.NamingException;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.event.ChangeListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.TableModel;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.core.layout.PatternLayout;
 
 public class MainFrame extends javax.swing.JFrame implements ActionListener, ChangeListener, MouseListener {
 
@@ -47,6 +47,8 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
 		consoleThread.execute();
 		rbgTQ.add(rbTopic);
 		rbgTQ.add(rbQueue);
+		rbgPubSub.add(rbSubTestDir);
+		rbgPubSub.add(rbSubTestFile);
 		rbgConsume.add(rbConsumeOne);
 		rbgConsume.add(rbConsumeAll);
 		rbgFileDir.add(rbInFile);
@@ -133,7 +135,7 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
         setTitle("JMS Pub/Sub Tool");
         setAlwaysOnTop(true);
         setForeground(java.awt.Color.white);
-        setMinimumSize(new java.awt.Dimension(806, 550));
+        setMinimumSize(new java.awt.Dimension(825, 550));
         setName("mainFrame"); // NOI18N
         setResizable(false);
         getContentPane().setLayout(null);
@@ -244,7 +246,7 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
                         .addComponent(txtTarget, javax.swing.GroupLayout.PREFERRED_SIZE, 358, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnTarget, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
         pnlConsumeLayout.setVerticalGroup(
             pnlConsumeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -285,6 +287,18 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
         tblProperties.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         tblProperties.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
+                {null, null},
                 {null, null},
                 {null, null},
                 {null, null},
@@ -397,7 +411,7 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
                         .addComponent(lblThreads)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtThreads, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(278, Short.MAX_VALUE))))
         );
         pnlSubTestingLayout.setVerticalGroup(
             pnlSubTestingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -814,13 +828,22 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
 	}
 
 	private void loadProfile(File selectedFile) {
+		boolean versioned = false;
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(selectedFile));
-			setWindows(br.readLine().split("\\|"));
+			String line = br.readLine();
+			if (line.charAt(0) == 'v') {
+				versioned = true;
+				line = br.readLine();
+			}
+			setWindows(line.split("\\|"));
 			setTQ(br.readLine().split("\\|"));
 			setAuth(br.readLine().split("\\|"));
 			setConsumerPanel(br.readLine().split("\\|"));
 			setPublisherPanel(br.readLine().split("\\|"));
+			if (versioned) {
+				setSubTestingPanel(br.readLine().split("\\|"));
+			}
 			readProperties(br);
 			br.close();
 		}
@@ -836,13 +859,16 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
 		try {
 			BufferedWriter bw = new BufferedWriter(new FileWriter(selectedFile));
 			StringBuilder sb = new StringBuilder();
-			sb.append(cbxUrl.getSelectedIndex()).append("|").append(tabPane.getSelectedIndex() == 0 ? "C" : "P")
+			sb.append("v2").append("\n");
+			sb.append(cbxUrl.getSelectedIndex()).append("|").append(ScreenEnum.getScreenKey(tabPane.getSelectedIndex()))
 				.append("|").append(txtCF.getText()).append("\n");
 			sb.append(rbTopic.isSelected() ? "T" : "Q").append("|").append(txtTQ.getText()).append("\n");
 			sb.append(txtUsername.getText()).append("|").append(txtPassword.getText()).append("\n");
 			sb.append(rbConsumeAll.isSelected() ? "A" : "O").append("|")
 				.append(cbxSaveMessages.isSelected() ? "X" : "").append("|").append(txtTarget.getText()).append("\n");
 			sb.append(rbInFile.isSelected() ? "F" : "D").append("|").append(txtSourceDir.getText()).append("\n");
+			sb.append(rbSubTestFile.isSelected() ? "F" : "D").append("|").append(txtSubTestSrc.getText()).append("|");
+			sb.append(txtMsgCount.getText()).append("|").append(txtThreads.getText()).append("\n");
 			TableModel tableModel = tblProperties.getModel();
 			for (int cntr = 0; cntr < tableModel.getRowCount(); cntr++) {
 				if (StringUtils.isNotEmpty((String) tableModel.getValueAt(cntr, 0))) {
@@ -861,10 +887,7 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
 
 	private void setWindows(String[] selections) {
 		cbxUrl.setSelectedIndex(Integer.parseInt(selections[0]));
-		tabPane.setSelectedIndex(0);
-		if ("P".equals(selections[1])) {
-			tabPane.setSelectedIndex(1);
-		}
+		tabPane.setSelectedIndex(ScreenEnum.getScreenNumber(selections[1]));
 		txtCF.setText(selections[2]);
 	}
 
@@ -920,13 +943,28 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
 		}
 	}
 
+	private void setSubTestingPanel(String[] selections) {
+		if ("F".equals(selections[0])) {
+			rbSubTestFile.setSelected(true);
+			rbSubTestDir.setSelected(false);
+		}
+		else {
+			rbSubTestFile.setSelected(false);
+			rbSubTestDir.setSelected(true);
+		}
+		txtSubTestSrc.setText(selections[1]);
+		txtMsgCount.setText(selections[2]);
+		txtThreads.setText(selections[3]);
+	}
+
 	private void readProperties(BufferedReader br) throws IOException {
 		int propertyCount = 0;
-		while (propertyCount < 9 && br.ready()) {
+		TableModel model = tblProperties.getModel();
+		while (propertyCount < model.getRowCount() && br.ready()) {
 			String[] props = br.readLine().split("\\|");
 			if (StringUtils.isNotEmpty(props[0])) {
-				tblProperties.getModel().setValueAt(props[0].trim(), propertyCount, 0);
-				tblProperties.getModel().setValueAt(props[1].trim(), propertyCount, 1);
+				model.setValueAt(props[0].trim(), propertyCount, 0);
+				model.setValueAt(props[1].trim(), propertyCount, 1);
 				propertyCount++;
 			}
 		}
