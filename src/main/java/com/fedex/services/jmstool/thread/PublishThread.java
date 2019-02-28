@@ -48,6 +48,12 @@ public class PublishThread extends Thread {
 				LOG.info(filename + " was not found.");
 				active = false;
 			}
+			try {
+				Thread.sleep(5);
+			}
+			catch (InterruptedException e) {
+				break;
+			}
 		}
 	}
 }

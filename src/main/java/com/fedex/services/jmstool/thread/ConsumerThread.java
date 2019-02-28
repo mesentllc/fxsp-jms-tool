@@ -37,13 +37,13 @@ public class ConsumerThread extends Thread {
 		model = null;
 		// Need to do it this way, (Creating a MessageConsumer attaching it to the session, if you want it to acknowledge
 		// the messages -- otherwise it just reads the first message and keeps it on the JMS queue.
-		// Wait for 100 milliseconds (max) to see if there are any messages
+		// Wait for 1 second (max) to see if there are any messages
 		jmsTemplate.execute(session -> {
 			MessageConsumer consumer = session.createConsumer(
 					jmsTemplate.getDestinationResolver().resolveDestinationName(session, jmsTemplate.getDefaultDestinationName(),
 					                                                            jmsTemplate.isPubSubDomain()));
 			try {
-				Message message = consumer.receive(100);
+				Message message = consumer.receive(1000);
 				if (message != null) {
 					model = new MessageModel(message);
 					message.acknowledge();
@@ -63,21 +63,6 @@ public class ConsumerThread extends Thread {
 			}
 			return true;
 		}, true);
-//		try {
-//			jmsTemplate.setReceiveTimeout(100);
-//			Message message = jmsTemplate.receive();
-//			if (message != null) {
-//				message.acknowledge();
-//				model = new MessageModel(message);
-//				messagesRead++;
-//				if (saveMessage) {
-//					saveToFile(fileRoot, model);
-//				}
-//			}
-//		}
-//		catch (Exception e) {
-//			LOGGER.error("Error attempting to received JMS message:", e);
-//		}
 	}
 
 	private void saveToFile(String fileRoot, MessageModel model) {

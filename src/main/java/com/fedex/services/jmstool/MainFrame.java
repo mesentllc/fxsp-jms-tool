@@ -603,10 +603,17 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
 		for (int cntr = 0; cntr < threadCount; cntr++) {
 			try {
 				messageQueue.put("END");
-				threads[cntr].join();
 			}
 			catch (InterruptedException e) {
 				LOGGER.trace("Unable to send termination marker to thread queue.");
+			}
+		}
+		for (int cntr = 0; cntr < threadCount; cntr++) {
+			try {
+				threads[cntr].join();
+			}
+			catch (InterruptedException e) {
+				LOGGER.trace("Thread " + cntr + " prematurely terminated...");
 			}
 		}
 	}
