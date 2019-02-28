@@ -536,33 +536,34 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
 
     private void btnExecuteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExecuteActionPerformed
 		try {
+			int panelSelected = tabPane.getSelectedIndex();
 			JmsProcessService service = new JmsProcessService(cbxUrl.getSelectedItem().toString());
-			service.setCF(txtCF.getText(), txtUsername.getText(), txtPassword.getText(), 1);
+			service.setCF(txtCF.getText(), txtUsername.getText(), txtPassword.getText(), panelSelected == 2 ? Integer.parseInt(txtThreads.getText()) : 1);
 			service.setJmsTemplate(txtTQ.getText(), rbTopic.isSelected());
-			if (tabPane.getSelectedIndex() == 0) {
-				MessageModel model = service.consume(cbxSaveMessages.isSelected(), txtTarget.getText(),
-					rbConsumeAll.isSelected());
-				if (model != null || rbConsumeAll.isSelected()) {
+			switch (panelSelected) {
+				case 0:
+					MessageModel model = service.consume(cbxSaveMessages.isSelected(), txtTarget.getText(), rbConsumeAll.isSelected());
+					if (model != null || rbConsumeAll.isSelected()) {
+						JOptionPane.showMessageDialog(this, "Completed.");
+					}
+					else {
+						JOptionPane.showMessageDialog(this, "No messages found.");
+					}
+					break;
+				case 1:
+					if (StringUtils.isNotEmpty(txtSourceDir.getText())) {
+						processPublish(service, txtSourceDir.getText());
+						JOptionPane.showMessageDialog(this, "Completed.");
+					}
+					break;
+				case 2:
+					if (StringUtils.isEmpty(txtSubTestSrc.getText())) {
+						JOptionPane.showMessageDialog(this, "Message source MUST be identified.", "Error!",
+							JOptionPane.ERROR_MESSAGE);
+						return;
+					}
+					processTestingPublish(service, txtSubTestSrc.getText());
 					JOptionPane.showMessageDialog(this, "Completed.");
-				}
-				else {
-					JOptionPane.showMessageDialog(this, "No messages found.");
-				}
-			}
-			if (tabPane.getSelectedIndex() == 1) {
-				if (StringUtils.isNotEmpty(txtSourceDir.getText())) {
-					processPublish(service, txtSourceDir.getText());
-					JOptionPane.showMessageDialog(this, "Completed.");
-				}
-			}
-			if (tabPane.getSelectedIndex() == 2) {
-				if (StringUtils.isEmpty(txtSubTestSrc.getText())) {
-					JOptionPane.showMessageDialog(this, "Message source MUST be identified.", "Error!",
-						JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				processTestingPublish(service, txtSubTestSrc.getText());
-				JOptionPane.showMessageDialog(this, "Completed.");
 			}
 		}
 		catch (NamingException ex) {
@@ -716,7 +717,7 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
     private void btnTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTestActionPerformed
 		try {
 			JmsProcessService service = new JmsProcessService(cbxUrl.getSelectedItem().toString());
-			service.setCF(txtCF.getText(), txtUsername.getText(), txtPassword.getText(), Integer.parseInt(txtThreads.getText()));
+			service.setCF(txtCF.getText(), txtUsername.getText(), txtPassword.getText(), 1);
 			service.setJmsTemplate(txtTQ.getText(), rbTopic.isSelected());
 			JOptionPane.showMessageDialog(this, "Success.");
 		}
