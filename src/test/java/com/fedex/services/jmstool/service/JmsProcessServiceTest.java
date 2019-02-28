@@ -55,7 +55,7 @@ public class JmsProcessServiceTest {
 	@BeforeClass
 	public static void setup() throws NamingException {
 		service = new JmsProcessService("ldap://apptstldap.corp.fedex.com/ou=messaging,dc=corp,dc=fedex,dc=com");
-		service.setCF("S.3534800.FXSPSHIP.EDD.PGH.CF.L1.01", null, null);
+		service.setCF("S.3534800.FXSPSHIP.EDD.PGH.CF.L1.01", null, null, 1);
 	}
 
 	@Test(expected = UnrecoverableException.class)
@@ -65,18 +65,17 @@ public class JmsProcessServiceTest {
 
 	@Test(expected = UnrecoverableException.class)
 	public void setCF_nullCFName_exceptionThrown() throws NamingException {
-		service.setCF(null, null, null);
-
+		service.setCF(null, null, null, 1);
 	}
 
 	@Test(expected = NameNotFoundException.class)
 	public void setCF_badCFName_exceptionThrown() throws NamingException {
-		service.setCF("ACF", null, null);
+		service.setCF("ACF", null, null, 1);
 	}
 
 	@Test
 	public void setCF_goodCFName_success() throws NamingException {
-		service.setCF("fxClientUID=S.3534800.FXSPSHIP.EDD.PGH.CF.L1.01", null, null);
+		service.setCF("fxClientUID=S.3534800.FXSPSHIP.EDD.PGH.CF.L1.01", null, null, 1);
 	}
 
 	@Test(expected = UnrecoverableException.class)
@@ -130,14 +129,14 @@ public class JmsProcessServiceTest {
 
 	@Test(expected = JmsSecurityException.class)
 	public void publish_cfAuthNotSet_exceptionThrown() throws IOException, NamingException {
-		service.setCF("S.3534800.FXSPSHIP.EDD.PGH.CF.L1.01", null, null);
+		service.setCF("S.3534800.FXSPSHIP.EDD.PGH.CF.L1.01", null, null, 1);
 		service.setJmsTemplate("D.FXSPSHIP.EDD", true);
 		service.publish(new MessageModel(new File("/test.xml"), null));
 	}
 
 	@Test(expected = FileNotFoundException.class)
 	public void publish_cfAuthSetNoXmlFile_exceptionThrown() throws IOException, NamingException {
-		service.setCF("S.3534800.FXSPSHIP.EDD.PGH.CF.L1.01", "FXG-CONTAI-3534800", "77WKiWXF5iyennqTm5PO2bXGeA");
+		service.setCF("S.3534800.FXSPSHIP.EDD.PGH.CF.L1.01", "FXG-CONTAI-3534800", "77WKiWXF5iyennqTm5PO2bXGeA", 1);
 		service.setJmsTemplate("D.FXSPSHIP.EDD", true);
 		service.publish(new MessageModel(new File("/badFile.xml"), null));
 	}
@@ -177,7 +176,7 @@ public class JmsProcessServiceTest {
 	//  This will actually publish a test message -- so I commented it so not to flood the TOPIC while running test several times.
 //	@Test
 	public void publish_cfAuthSetHappyPath_success() throws Exception {
-		service.setCF("S.3534800.FXSPSHIP.EDD.PGH.CF.L1.01", "FXG-CONTAI-3534800", "77WKiWXF5iyennqTm5PO2bXGeA");
+		service.setCF("S.3534800.FXSPSHIP.EDD.PGH.CF.L1.01", "FXG-CONTAI-3534800", "77WKiWXF5iyennqTm5PO2bXGeA", 1);
 		service.setJmsTemplate("D.FXSPSHIP.EDD", true);
 		service.publish(new MessageModel(new File("/test.xml"), null));
 	}
@@ -185,7 +184,7 @@ public class JmsProcessServiceTest {
 //  This will actually publish a test message -- so I commented it so not to flood the TOPIC while running test several times.
 //	@Test
 	public void publish_cfAuthSetBlankXml_success() throws NamingException, IOException {
-		service.setCF("S.3534800.FXSPSHIP.EDD.PGH.CF.L1.01", "FXG-CONTAI-3534800", "77WKiWXF5iyennqTm5PO2bXGeA");
+		service.setCF("S.3534800.FXSPSHIP.EDD.PGH.CF.L1.01", "FXG-CONTAI-3534800", "77WKiWXF5iyennqTm5PO2bXGeA", 1);
 		service.setJmsTemplate("D.FXSPSHIP.EDD", true);
 		service.publish(new MessageModel(new File("/blank.xml"), null));
 	}

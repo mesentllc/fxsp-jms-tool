@@ -537,7 +537,7 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
     private void btnExecuteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExecuteActionPerformed
 		try {
 			JmsProcessService service = new JmsProcessService(cbxUrl.getSelectedItem().toString());
-			service.setCF(txtCF.getText(), txtUsername.getText(), txtPassword.getText());
+			service.setCF(txtCF.getText(), txtUsername.getText(), txtPassword.getText(), 1);
 			service.setJmsTemplate(txtTQ.getText(), rbTopic.isSelected());
 			if (tabPane.getSelectedIndex() == 0) {
 				MessageModel model = service.consume(cbxSaveMessages.isSelected(), txtTarget.getText(),
@@ -716,7 +716,7 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
     private void btnTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTestActionPerformed
 		try {
 			JmsProcessService service = new JmsProcessService(cbxUrl.getSelectedItem().toString());
-			service.setCF(txtCF.getText(), txtUsername.getText(), txtPassword.getText());
+			service.setCF(txtCF.getText(), txtUsername.getText(), txtPassword.getText(), Integer.parseInt(txtThreads.getText()));
 			service.setJmsTemplate(txtTQ.getText(), rbTopic.isSelected());
 			JOptionPane.showMessageDialog(this, "Success.");
 		}

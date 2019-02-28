@@ -2,6 +2,7 @@ package com.fedex.services.jmstool.utils;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.jms.connection.CachingConnectionFactory;
 import org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.support.destination.JndiDestinationResolver;
@@ -47,17 +48,26 @@ public class JmsUtils {
 		return jndiDestinationResolver;
 	}
 
-	public UserCredentialsConnectionFactoryAdapter getConnectionFactory(String name, String username, String pwd) throws NamingException {
+	private CachingConnectionFactory getCachingCF(ConnectionFactory cf, int threadCount) {
+		CachingConnectionFactory cachingConnectionFactory = new CachingConnectionFactory();
+		cachingConnectionFactory.setTargetConnectionFactory(cf);
+		cachingConnectionFactory.setSessionCacheSize(threadCount);
+		cachingConnectionFactory.setCacheConsumers(false);
+		LOGGER.trace(String.format("Wrapped UserCredentialsConnectionFactoryAdapter in a CachingConnectionFactory with a cache size of %d", threadCount));
+		return cachingConnectionFactory;
+	}
+
+	public CachingConnectionFactory getConnectionFactory(String name, String username, String pwd, int threadCount) throws NamingException {
 		LOGGER.trace(String.format("Creating UserCredentialsConnectionFactoryAdapter for %s", name));
 		UserCredentialsConnectionFactoryAdapter adapter = new UserCredentialsConnectionFactoryAdapter();
 		adapter.setTargetConnectionFactory(getConnectionFactory(name));
 		adapter.setUsername(username);
 		adapter.setPassword(pwd);
 		LOGGER.trace(String.format("Created UserCredentialsConnectionFactoryAdapter for %s, with credentials of %s/%s", name, username, pwd));
-		return adapter;
+		return getCachingCF(adapter, threadCount);
 	}
 
-	public JmsTemplate getJmsTemplate(UserCredentialsConnectionFactoryAdapter adapter, String topicName, boolean isTopic) {
+	public JmsTemplate getJmsTemplate(CachingConnectionFactory adapter, String topicName, boolean isTopic) {
 		LOGGER.trace("getJmsTemplate initializing...");
 
 		LOGGER.trace(String.format("Attempting to build JMS Template for %s", topicName));

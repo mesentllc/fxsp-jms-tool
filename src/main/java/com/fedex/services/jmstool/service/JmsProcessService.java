@@ -10,6 +10,7 @@ import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.jms.connection.CachingConnectionFactory;
 import org.springframework.jms.connection.UserCredentialsConnectionFactoryAdapter;
 import org.springframework.jms.core.JmsTemplate;
 
@@ -18,7 +19,7 @@ import javax.naming.NamingException;
 public class JmsProcessService {
 	private static final Log LOGGER = LogFactory.getLog(JmsProcessService.class);
 	private final JmsUtils jmsUtils;
-	private UserCredentialsConnectionFactoryAdapter cfAdapter;
+	private CachingConnectionFactory cfAdapter;
 	private JmsTemplate jmsTemplate;
 
 	public JmsProcessService(String url) throws NamingException {
@@ -40,17 +41,17 @@ public class JmsProcessService {
 		return thread.getMessageModel();
 	}
 
-	public void setCF(String cfName, String username, String password) throws NamingException {
+	public void setCF(String cfName, String username, String password, int threadCount) throws NamingException {
 		if (cfName == null) {
 			throw new UnrecoverableException("Connection Factory Name MUST NOT be NULL!", false);
 		}
 		LOGGER.debug(String.format("Initializing the Connection Factory - %s - [%s/%s]", cfName, username, password));
 		if (!cfName.startsWith("fxClientUID=")) {
-			cfAdapter = jmsUtils.getConnectionFactory("fxClientUID=" + cfName, username, password);
+			cfAdapter = jmsUtils.getConnectionFactory("fxClientUID=" + cfName, username, password, threadCount);
 
 		}
 		else {
-			cfAdapter = jmsUtils.getConnectionFactory(cfName, username, password);
+			cfAdapter = jmsUtils.getConnectionFactory(cfName, username, password, threadCount);
 		}
 		LOGGER.debug(String.format("Connection Factory - %s - created", cfName));
 	}
