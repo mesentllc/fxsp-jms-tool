@@ -64,12 +64,12 @@ public class JmsProcessService {
 		if (cfAdapter == null) {
 			throw new UnrecoverableException("Must setup the connection factory first.", false);
 		}
-		if (!name.startsWith("fxClientDestinationUID=")) {
-			jmsTemplate = jmsUtils.getJmsTemplate(cfAdapter, "fxClientDestinationUID=" + name, isTopic);
-		}
-		else {
+//		if (!name.startsWith("fxClientDestinationUID=")) {
+//			jmsTemplate = jmsUtils.getJmsTemplate(cfAdapter, "fxClientDestinationUID=" + name, isTopic);
+//		}
+//		else {
 			jmsTemplate = jmsUtils.getJmsTemplate(cfAdapter, name, isTopic);
-		}
+//		}
 		LOGGER.debug(name + " created");
 	}
 
