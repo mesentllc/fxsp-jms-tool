@@ -449,7 +449,7 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
 
         cbxUrl.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         cbxUrl.setMaximumRowCount(2);
-        cbxUrl.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ldap://apptstldap.corp.fedex.com/ou=messaging,dc=corp,dc=fedex,dc=com", "ldap://appldap.corp.fedex.com/ou=messaging,dc=prod,dc=fedex,dc=com" }));
+        cbxUrl.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ldap://apptstldap.corp.fedex.com/ou=messaging,dc=corp,dc=fedex,dc=com", "ldap://appldap.prod.fedex.com/ou=messaging,dc=prod,dc=fedex,dc=com" }));
         getContentPane().add(cbxUrl);
         cbxUrl.setBounds(170, 10, 600, 25);
 
