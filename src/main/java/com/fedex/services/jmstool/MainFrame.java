@@ -68,8 +68,6 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
 
         rbgPubSub = new javax.swing.ButtonGroup();
         rbgConsume = new javax.swing.ButtonGroup();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         rbgTQ = new javax.swing.ButtonGroup();
         buttonGroup1 = new javax.swing.ButtonGroup();
         rbgFileDir = new javax.swing.ButtonGroup();
@@ -113,23 +111,11 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
         jScrollPane1 = new javax.swing.JScrollPane();
         txtConsole = new javax.swing.JTextArea();
         btnTest = new javax.swing.JButton();
+        btnClear = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         mnuLoad = new javax.swing.JMenu();
         mnuSave = new javax.swing.JMenu();
         mnuReset = new javax.swing.JMenu();
-
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane2.setViewportView(jTable1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("JMS Pub/Sub Tool");
@@ -140,53 +126,47 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
         setResizable(false);
         getContentPane().setLayout(null);
 
-        lblUrl.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         lblUrl.setText("LDAP URL:");
         lblUrl.setFocusable(false);
         getContentPane().add(lblUrl);
-        lblUrl.setBounds(12, 14, 65, 16);
+        lblUrl.setBounds(12, 14, 60, 16);
         lblUrl.getAccessibleContext().setAccessibleName("lblUrl");
 
-        lblCF.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         lblCF.setText("Connection Factory:");
         lblCF.setFocusable(false);
         getContentPane().add(lblCF);
-        lblCF.setBounds(12, 40, 116, 16);
+        lblCF.setBounds(12, 40, 112, 16);
 
         txtCF.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         getContentPane().add(txtCF);
-        txtCF.setBounds(170, 40, 600, 23);
+        txtCF.setBounds(170, 40, 600, 27);
 
         txtTQ.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         getContentPane().add(txtTQ);
-        txtTQ.setBounds(170, 70, 600, 23);
+        txtTQ.setBounds(170, 70, 600, 27);
 
-        lblUsername.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         lblUsername.setText("Username:");
         getContentPane().add(lblUsername);
-        lblUsername.setBounds(50, 110, 64, 16);
+        lblUsername.setBounds(50, 110, 62, 16);
 
         txtUsername.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         getContentPane().add(txtUsername);
-        txtUsername.setBounds(130, 110, 200, 23);
+        txtUsername.setBounds(130, 110, 200, 27);
 
-        lblPassword.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         lblPassword.setText("Password:");
         getContentPane().add(lblPassword);
         lblPassword.setBounds(350, 110, 61, 16);
 
         txtPassword.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         getContentPane().add(txtPassword);
-        txtPassword.setBounds(420, 110, 200, 23);
+        txtPassword.setBounds(420, 110, 200, 27);
 
-        btnExecute.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         btnExecute.setText("Execute");
         btnExecute.addActionListener(this);
         getContentPane().add(btnExecute);
-        btnExecute.setBounds(700, 200, 81, 26);
+        btnExecute.setBounds(700, 200, 76, 32);
 
         tabPane.setFocusable(false);
-        tabPane.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         tabPane.setMaximumSize(new java.awt.Dimension(607, 149));
         tabPane.setMinimumSize(new java.awt.Dimension(607, 149));
         tabPane.setPreferredSize(new java.awt.Dimension(607, 149));
@@ -197,22 +177,17 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
         pnlConsume.setName("pnlConsume"); // NOI18N
         pnlConsume.setPreferredSize(new java.awt.Dimension(607, 149));
 
-        lblConsume.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         lblConsume.setText("Comsume:");
         lblConsume.setFocusable(false);
 
-        rbConsumeOne.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         rbConsumeOne.setSelected(true);
         rbConsumeOne.setText("One Message");
 
-        rbConsumeAll.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         rbConsumeAll.setText("All Messages");
 
-        cbxSaveMessages.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         cbxSaveMessages.setText("Save Messages");
         cbxSaveMessages.addChangeListener(this);
 
-        lblDir.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         lblDir.setText("Directory:");
         lblDir.setFocusable(false);
 
@@ -221,7 +196,6 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
         txtTarget.setFocusable(false);
         txtTarget.setRequestFocusEnabled(false);
 
-        btnTarget.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         btnTarget.setText("...");
         btnTarget.addActionListener(this);
 
@@ -276,7 +250,6 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
         txtSourceDir.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         txtSourceDir.setAutoscrolls(false);
 
-        btnSource.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         btnSource.setText("...");
         btnSource.addActionListener(this);
 
@@ -372,7 +345,6 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
         txtSubTestSrc.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         txtSubTestSrc.setAutoscrolls(false);
 
-        btnSubTestSource.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         btnSubTestSource.setText("...");
         btnSubTestSource.addActionListener(this);
 
@@ -436,12 +408,10 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
         getContentPane().add(tabPane);
         tabPane.setBounds(30, 140, 650, 170);
 
-        rbTopic.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         rbTopic.setText("Topic");
         getContentPane().add(rbTopic);
-        rbTopic.setBounds(20, 70, 56, 24);
+        rbTopic.setBounds(20, 70, 63, 28);
 
-        rbQueue.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         rbQueue.setSelected(true);
         rbQueue.setText("Queue");
         getContentPane().add(rbQueue);
@@ -449,9 +419,9 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
 
         cbxUrl.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         cbxUrl.setMaximumRowCount(2);
-        cbxUrl.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ldap://apptstldap.corp.fedex.com/ou=messaging,dc=corp,dc=fedex,dc=com", "ldap://appldap.prod.fedex.com/ou=messaging,dc=prod,dc=fedex,dc=com" }));
+        cbxUrl.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ldap://apptstldap.corp.fedex.com/ou=messaging,dc=corp,dc=fedex,dc=com", "ldap://appldap.corp.fedex.com/ou=messaging,dc=prod,dc=fedex,dc=com" }));
         getContentPane().add(cbxUrl);
-        cbxUrl.setBounds(170, 10, 600, 25);
+        cbxUrl.setBounds(170, 10, 600, 26);
 
         txtConsole.setEditable(false);
         txtConsole.setColumns(20);
@@ -466,6 +436,11 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
         btnTest.addActionListener(this);
         getContentPane().add(btnTest);
         btnTest.setBounds(640, 110, 150, 30);
+
+        btnClear.setText("Clear Log");
+        btnClear.addActionListener(this);
+        getContentPane().add(btnClear);
+        btnClear.setBounds(690, 270, 90, 32);
 
         mnuLoad.setText("Load File");
         mnuLoad.addMouseListener(this);
@@ -501,6 +476,9 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
         }
         else if (evt.getSource() == btnTest) {
             MainFrame.this.btnTestActionPerformed(evt);
+        }
+        else if (evt.getSource() == btnClear) {
+            MainFrame.this.btnClearActionPerformed(evt);
         }
     }
 
@@ -734,6 +712,10 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
 		}
     }//GEN-LAST:event_btnTestActionPerformed
 
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        txtConsole.setText("");
+    }//GEN-LAST:event_btnClearActionPerformed
+
 	public static void main(String args[]) {
 		try {
 			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -750,6 +732,7 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
 	}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnClear;
     private javax.swing.JButton btnExecute;
     private javax.swing.JButton btnSource;
     private javax.swing.JButton btnSubTestSource;
@@ -759,8 +742,6 @@ public class MainFrame extends javax.swing.JFrame implements ActionListener, Cha
     private javax.swing.JCheckBox cbxSaveMessages;
     private javax.swing.JComboBox<String> cbxUrl;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lblCF;
     private javax.swing.JLabel lblConsume;
     private javax.swing.JLabel lblDir;

@@ -78,9 +78,6 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="lblUrl">
       <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="12" style="1"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="LDAP URL:"/>
         <Property name="focusable" type="boolean" value="false"/>
       </Properties>
@@ -95,9 +92,6 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblCF">
       <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="12" style="1"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="Connection Factory:"/>
         <Property name="focusable" type="boolean" value="false"/>
       </Properties>
@@ -133,9 +127,6 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblUsername">
       <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="12" style="1"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="Username:"/>
       </Properties>
       <Constraints>
@@ -158,9 +149,6 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblPassword">
       <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="12" style="1"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="Password:"/>
       </Properties>
       <Constraints>
@@ -183,9 +171,6 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnExecute">
       <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="12" style="1"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="Execute"/>
       </Properties>
       <Events>
@@ -200,9 +185,6 @@
     <Container class="javax.swing.JTabbedPane" name="tabPane">
       <Properties>
         <Property name="focusable" type="boolean" value="false"/>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="12" style="1"/>
-        </Property>
         <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[607, 149]"/>
         </Property>
@@ -294,35 +276,23 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="lblConsume">
               <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Dialog" size="12" style="1"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Comsume:"/>
                 <Property name="focusable" type="boolean" value="false"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JRadioButton" name="rbConsumeOne">
               <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Dialog" size="12" style="1"/>
-                </Property>
                 <Property name="selected" type="boolean" value="true"/>
                 <Property name="text" type="java.lang.String" value="One Message"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JRadioButton" name="rbConsumeAll">
               <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Dialog" size="12" style="1"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="All Messages"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JCheckBox" name="cbxSaveMessages">
               <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Dialog" size="12" style="1"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Save Messages"/>
               </Properties>
               <Events>
@@ -331,9 +301,6 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblDir">
               <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Dialog" size="12" style="1"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="Directory:"/>
                 <Property name="focusable" type="boolean" value="false"/>
               </Properties>
@@ -350,9 +317,6 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnTarget">
               <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Dialog" size="12" style="1"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="..."/>
               </Properties>
               <Events>
@@ -430,9 +394,6 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnSource">
               <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Dialog" size="12" style="1"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="..."/>
               </Properties>
               <Events>
@@ -570,9 +531,6 @@
             </Component>
             <Component class="javax.swing.JButton" name="btnSubTestSource">
               <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Dialog" size="12" style="1"/>
-                </Property>
                 <Property name="text" type="java.lang.String" value="..."/>
               </Properties>
               <Events>
@@ -612,9 +570,6 @@
     </Container>
     <Component class="javax.swing.JRadioButton" name="rbTopic">
       <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="12" style="1"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="Topic"/>
       </Properties>
       <Constraints>
@@ -625,9 +580,6 @@
     </Component>
     <Component class="javax.swing.JRadioButton" name="rbQueue">
       <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="12" style="1"/>
-        </Property>
         <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" value="Queue"/>
       </Properties>
@@ -693,6 +645,19 @@
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
           <AbsoluteConstraints x="640" y="110" width="150" height="30"/>
+        </Constraint>
+      </Constraints>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnClear">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Clear Log"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnClearActionPerformed"/>
+      </Events>
+      <Constraints>
+        <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
+          <AbsoluteConstraints x="690" y="270" width="90" height="-1"/>
         </Constraint>
       </Constraints>
     </Component>
